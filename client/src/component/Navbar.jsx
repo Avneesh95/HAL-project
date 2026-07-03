@@ -1,15 +1,28 @@
 import { Link, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
 
 function Navbar() {
   const navigate = useNavigate();
 
-  const token = localStorage.getItem("token");
-  const role = localStorage.getItem("role");
+  const [token, setToken] = useState(localStorage.getItem("token"));
+  const [role, setRole] = useState(localStorage.getItem("role"));
+
+  useEffect(() => {
+    const syncAuth = () => {
+      setToken(localStorage.getItem("token"));
+      setRole(localStorage.getItem("role"));
+    };
+
+    window.addEventListener("storage", syncAuth);
+
+    return () => window.removeEventListener("storage", syncAuth);
+  }, []);
 
   const logout = () => {
     localStorage.clear();
-    navigate("/");
-    window.location.reload();
+    setToken(null);
+    setRole(null);
+    navigate("/login");
   };
 
   return (
@@ -43,14 +56,12 @@ function Navbar() {
           Home
         </Link>
 
-        {/* SHOW LOGIN ONLY IF NOT LOGGED IN */}
         {!token && (
           <Link style={linkStyle} to="/login">
             Login
           </Link>
         )}
 
-        {/* ADMIN MENU */}
         {token && role === "admin" && (
           <>
             <Link style={linkStyle} to="/admin/dashboard">
@@ -62,10 +73,12 @@ function Navbar() {
             <Link style={linkStyle} to="/admin/pending-parts">
               Pending Parts
             </Link>
+            <Link style={linkStyle} to="/admin/manage-parts">
+              Manage Parts
+            </Link>
           </>
         )}
 
-        {/* SUPPLIER MENU */}
         {token && role === "supplier" && (
           <>
             <Link style={linkStyle} to="/supplier/dashboard">
@@ -81,7 +94,7 @@ function Navbar() {
         )}
       </div>
 
-      {/* RIGHT SIDE USER */}
+      {/* RIGHT SIDE */}
       <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
         {token ? (
           <>

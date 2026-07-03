@@ -13,7 +13,6 @@ function Home() {
   const loadParts = async () => {
     try {
       const res = await API.get("/public/approved-parts");
-      console.log(res.data);
       setParts(res.data);
     } catch (err) {
       console.log(err);
@@ -21,15 +20,12 @@ function Home() {
     }
   };
 
-  // 🔍 SEARCH FILTER
   const filteredParts = parts.filter((part) =>
     part.part_name.toLowerCase().includes(search.toLowerCase())
   );
 
-  // Format Date
   const formatDate = (date) => {
     if (!date) return "-";
-
     return new Date(date).toLocaleDateString("en-IN", {
       day: "2-digit",
       month: "short",
@@ -42,23 +38,22 @@ function Home() {
 
       <h2 className="title">Approved Inventory Parts</h2>
 
-      {/* 🔍 SEARCH BAR */}
-      <div style={{ textAlign: "center", marginBottom: "15px" }}>
-        <input
-          type="text"
-          placeholder="Search by part name..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          style={{
-            width: "60%",
-            padding: "10px",
-            borderRadius: "8px",
-            border: "1px solid #ccc",
-            outline: "none",
-          }}
-        />
-      </div>
+      
+    {/* 🔍 SEARCH BAR */}
+<div className="search-wrapper">
+  <div className="search-box">
+    <span className="search-icon">🔍</span>
 
+    <input
+      type="text"
+      placeholder="Search by part name..."
+      value={search}
+      onChange={(e) => setSearch(e.target.value)}
+    />
+  </div>
+</div>
+
+      {/* 💻 DESKTOP TABLE */}
       <div className="table-container">
         <table className="parts-table">
           <thead>
@@ -94,8 +89,45 @@ function Home() {
               ))
             )}
           </tbody>
-
         </table>
+      </div>
+
+      {/* 📱 MOBILE CARDS (OUTSIDE TABLE) */}
+      <div className="mobile-list">
+
+        {filteredParts.map((part) => (
+          <div className="card" key={part.id}>
+
+            <h3>{part.part_name}</h3>
+
+            <div className="row">
+              <span className="label">ID</span>
+              <span>{part.id}</span>
+            </div>
+
+            <div className="row">
+              <span className="label">Supplier</span>
+              <span>{part.supplier_name}</span>
+            </div>
+
+            <div className="row">
+              <span className="label">Qty</span>
+              <span>{part.quantity}</span>
+            </div>
+
+            <div className="row">
+              <span className="label">MFG</span>
+              <span>{formatDate(part.manufacturing_date)}</span>
+            </div>
+
+            <div className="row">
+              <span className="label">Expiry</span>
+              <span>{formatDate(part.expiry_date)}</span>
+            </div>
+
+          </div>
+        ))}
+
       </div>
 
     </div>

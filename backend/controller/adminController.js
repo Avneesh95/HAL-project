@@ -5,6 +5,8 @@ const bcrypt = require("bcrypt");
 
 
 
+
+
 // ==========================
 // GET ALL ADMINS
 // ==========================
@@ -27,6 +29,8 @@ exports.getAdmins = (req, res) => {
   );
 
 };
+
+
 
 // =========================
 // GET ALL SUPPLIERS
@@ -529,6 +533,38 @@ exports.rejectPart = (req, res) => {
 
 };
 
+
+
+
+
+
+exports.updateQuantity = (req, res) => {
+  const id = req.params.id;
+  const { action } = req.body; // "increase" or "decrease"
+
+  let sql = "";
+
+  if (action === "increase") {
+    sql = "UPDATE parts SET quantity = quantity + 1 WHERE id = ?";
+  } else if (action === "decrease") {
+    sql = "UPDATE parts SET quantity = GREATEST(quantity - 1, 0) WHERE id = ?";
+  } else {
+    return res.status(400).json({ message: "Invalid action" });
+  }
+
+  db.query(sql, [id], (err) => {
+    if (err) {
+      return res.status(500).json({
+        message: "Error updating quantity",
+        error: err,
+      });
+    }
+
+    return res.json({
+      message: "Quantity updated successfully",
+    });
+  });
+};
 
 
 

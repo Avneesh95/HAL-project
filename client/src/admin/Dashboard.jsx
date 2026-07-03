@@ -3,6 +3,14 @@ import { Link } from "react-router-dom";
 import API from "../api";
 import "./Dashboard.css";
 
+import {
+  FaUsers,
+  FaBoxes,
+  FaClock,
+  FaCheckCircle,
+  FaTimesCircle,
+} from "react-icons/fa";
+
 function Dashboard() {
   const [stats, setStats] = useState({
     totalSuppliers: 0,
@@ -36,31 +44,37 @@ function Dashboard() {
 
   return (
     <div className="dashboard-container">
-      <h1 className="dashboard-title">Admin Dashboard</h1>
+      <h1 className="dashboard-title">
+        Welcome to Admin Dashboard 👋
+      </h1>
 
-      {/* Statistics Cards */}
       <div className="stats-grid">
-        <div className="stat-card">
+        <div className="stat-card blue">
+          <FaUsers className="stat-icon" />
           <h3>Total Suppliers</h3>
           <p>{stats.totalSuppliers}</p>
         </div>
 
-        <div className="stat-card">
+        <div className="stat-card purple">
+          <FaBoxes className="stat-icon" />
           <h3>Total Parts</h3>
           <p>{stats.totalParts}</p>
         </div>
 
-        <div className="stat-card">
+        <div className="stat-card orange">
+          <FaClock className="stat-icon" />
           <h3>Pending Parts</h3>
           <p>{stats.pendingParts}</p>
         </div>
 
-        <div className="stat-card">
+        <div className="stat-card green">
+          <FaCheckCircle className="stat-icon" />
           <h3>Approved Parts</h3>
           <p>{stats.approvedParts}</p>
         </div>
 
-        <div className="stat-card">
+        <div className="stat-card red">
+          <FaTimesCircle className="stat-icon" />
           <h3>Rejected Parts</h3>
           <p>{stats.rejectedParts}</p>
         </div>
@@ -70,23 +84,23 @@ function Dashboard() {
 
       <div className="actions-grid">
         <Link to="/admin/admins">
-          <button className="action-btn">Manage Admins</button>
+          <button className="action-btn">👤 Manage Admins</button>
         </Link>
 
         <Link to="/admin/add-admin">
-          <button className="action-btn">Add Admin</button>
+          <button className="action-btn">➕ Add Admin</button>
         </Link>
 
         <Link to="/admin/suppliers">
-          <button className="action-btn">Manage Suppliers</button>
+          <button className="action-btn">🏭 Manage Suppliers</button>
         </Link>
 
         <Link to="/admin/add-supplier">
-          <button className="action-btn">Add Supplier</button>
+          <button className="action-btn">➕ Add Supplier</button>
         </Link>
 
         <Link to="/admin/pending-parts">
-          <button className="action-btn">Pending Parts</button>
+          <button className="action-btn">📦 Pending Parts</button>
         </Link>
       </div>
     </div>

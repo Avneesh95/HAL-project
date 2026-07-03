@@ -48,12 +48,18 @@ exports.login = (req, res) => {
           process.env.JWT_SECRET,
           {
             expiresIn: "1d",
-          }
+          },
         );
+
+        res.cookie("token", token, {
+          httpOnly: true,
+          secure: false, // Change to true after deploying with HTTPS
+          sameSite: "lax",
+          maxAge: 24 * 60 * 60 * 1000, // 1 day
+        });
 
         return res.json({
           message: "Login successful",
-          token,
           role: "admin",
           user: {
             id: admin.id,
@@ -62,7 +68,7 @@ exports.login = (req, res) => {
             email: admin.email,
           },
         });
-      }
+      },
     );
   }
 
@@ -101,12 +107,18 @@ exports.login = (req, res) => {
           process.env.JWT_SECRET,
           {
             expiresIn: "1d",
-          }
+          },
         );
+
+        res.cookie("token", token, {
+          httpOnly: true,
+          secure: false,
+          sameSite: "lax",
+          maxAge: 24 * 60 * 60 * 1000,
+        });
 
         return res.json({
           message: "Login successful",
-          token,
           role: "supplier",
           user: {
             id: supplier.id,
@@ -115,7 +127,7 @@ exports.login = (req, res) => {
             email: supplier.email,
           },
         });
-      }
+      },
     );
   }
 

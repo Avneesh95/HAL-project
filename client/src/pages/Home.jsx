@@ -4,6 +4,7 @@ import "./Home.css";
 
 function Home() {
   const [parts, setParts] = useState([]);
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     loadParts();
@@ -12,7 +13,7 @@ function Home() {
   const loadParts = async () => {
     try {
       const res = await API.get("/public/approved-parts");
-      console.log(res.data); // Check API response in browser console
+      console.log(res.data);
       setParts(res.data);
     } catch (err) {
       console.log(err);
@@ -20,21 +21,43 @@ function Home() {
     }
   };
 
-  // Format Date & Time
- 
-  const formatDate = (date) => {
-  if (!date) return "-";
+  // 🔍 SEARCH FILTER
+  const filteredParts = parts.filter((part) =>
+    part.part_name.toLowerCase().includes(search.toLowerCase())
+  );
 
-  return new Date(date).toLocaleDateString("en-IN", {
-    day: "2-digit",
-    month: "short",
-    year: "numeric",
-  });
-};
+  // Format Date
+  const formatDate = (date) => {
+    if (!date) return "-";
+
+    return new Date(date).toLocaleDateString("en-IN", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+    });
+  };
 
   return (
     <div className="home-container">
+
       <h2 className="title">Approved Inventory Parts</h2>
+
+      {/* 🔍 SEARCH BAR */}
+      <div style={{ textAlign: "center", marginBottom: "15px" }}>
+        <input
+          type="text"
+          placeholder="Search by part name..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          style={{
+            width: "60%",
+            padding: "10px",
+            borderRadius: "8px",
+            border: "1px solid #ccc",
+            outline: "none",
+          }}
+        />
+      </div>
 
       <div className="table-container">
         <table className="parts-table">
@@ -51,28 +74,30 @@ function Home() {
           </thead>
 
           <tbody>
-            {parts.length === 0 ? (
+            {filteredParts.length === 0 ? (
               <tr>
                 <td colSpan="7" className="no-data">
-                  No approved parts found.
+                  No matching parts found.
                 </td>
               </tr>
             ) : (
-              parts.map((part) => (
+              filteredParts.map((part) => (
                 <tr key={part.id}>
                   <td>{part.id}</td>
                   <td>{part.supplier_id}</td>
                   <td>{part.supplier_name}</td>
                   <td>{part.part_name}</td>
                   <td>{part.quantity}</td>
-                <td>{formatDate(part.manufacturing_date)}</td>
+                  <td>{formatDate(part.manufacturing_date)}</td>
                   <td>{formatDate(part.expiry_date)}</td>
                 </tr>
               ))
             )}
           </tbody>
+
         </table>
       </div>
+
     </div>
   );
 }

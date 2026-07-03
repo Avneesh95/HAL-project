@@ -534,7 +534,7 @@ exports.rejectPart = (req, res) => {
 };
 
 
-
+//UPDATE QUANTITY
 
 
 
@@ -568,3 +568,29 @@ exports.updateQuantity = (req, res) => {
 
 
 
+// GET ALL PARTS
+
+exports.getAllParts = (req, res) => {
+  const sql = `
+    SELECT 
+      parts.id,
+      suppliers.name AS supplier_name,
+      parts.part_name,
+      parts.quantity,
+      parts.manufacturing_date,
+      parts.expiry_date,
+      parts.status,
+      parts.created_at
+    FROM parts
+    JOIN suppliers ON suppliers.id = parts.supplier_id
+    ORDER BY parts.created_at DESC
+  `;
+
+  db.query(sql, (err, result) => {
+    if (err) {
+      return res.status(500).json({ message: "Server error", err });
+    }
+
+    res.json(result);
+  });
+};

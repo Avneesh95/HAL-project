@@ -73,4 +73,12 @@ router.post(
   adminController.addAdmin
 );
 
+
+
+router.get(
+  "/parts",
+  auth("admin"),
+  adminController.getAllParts
+);
+
 module.exports = router;

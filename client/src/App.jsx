@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import Navbar from "./component/Navbar"; // 👈 ADD THIS
+import Navbar from "./component/Navbar";
 
 import Home from "./pages/Home";
 import Login from "./pages/Login";
@@ -8,21 +8,30 @@ import Login from "./pages/Login";
 import AdminDashboard from "./admin/Dashboard";
 import SupplierDashboard from "./supplier/Dashboard";
 
+// ADMIN PAGES
+import Admins from "./admin/Admins";
+import AddAdmin from "./admin/AddAdmin";
+import Suppliers from "./admin/Supplier";
+import AddSupplier from "./admin/AddSupplier";
+import PendingParts from "./admin/pendingPart";
+import ManageParts from "./admin/ManageParts";
+
+// PROTECTED ROUTE
 import ProtectedRoute from "./component/ProtectedRoutes";
 
 function App() {
   return (
     <BrowserRouter>
 
-      {/* 🔥 ADD NAVBAR HERE */}
       <Navbar />
 
       <Routes>
-        {/* PUBLIC ROUTES */}
+
+        {/* PUBLIC */}
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
 
-        {/* ADMIN ROUTES */}
+        {/* ADMIN */}
         <Route
           path="/admin/dashboard"
           element={
@@ -32,7 +41,61 @@ function App() {
           }
         />
 
-        {/* SUPPLIER ROUTES */}
+        <Route
+          path="/admin/admins"
+          element={
+            <ProtectedRoute role="admin">
+              <Admins />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/admin/add-admin"
+          element={
+            <ProtectedRoute role="admin">
+              <AddAdmin />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/admin/suppliers"
+          element={
+            <ProtectedRoute role="admin">
+              <Suppliers />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/admin/add-supplier"
+          element={
+            <ProtectedRoute role="admin">
+              <AddSupplier />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/admin/pending-parts"
+          element={
+            <ProtectedRoute role="admin">
+              <PendingParts />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/admin/manage-parts"
+          element={
+            <ProtectedRoute role="admin">
+              <ManageParts />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* SUPPLIER */}
         <Route
           path="/supplier/dashboard"
           element={
@@ -41,8 +104,8 @@ function App() {
             </ProtectedRoute>
           }
         />
-      </Routes>
 
+      </Routes>
     </BrowserRouter>
   );
 }

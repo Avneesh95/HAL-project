@@ -147,7 +147,7 @@ function MyParts() {
                           flexWrap: "wrap",
                         }}
                       >
-                        <Link to={`/supplier/edit-part/${part.id}`}>
+                        {/* {/* <Link to={`/supplier/edit-part/${part.id}`}>
                           <button
                             style={editBtn}
                             onMouseEnter={(e) => {
@@ -160,8 +160,8 @@ function MyParts() {
                             }}
                           >
                             Edit
-                          </button>
-                        </Link>
+                          </button> 
+                        </Link> */}
 
                         <button
                           style={deleteBtn}

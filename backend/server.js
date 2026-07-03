@@ -13,10 +13,17 @@ const publicRoutes = require("./routes/publicRoutes");
 const app = express();
 
 // Middleware
-app.use(cors({
-  origin: "http://localhost:5173",
-  credentials: true,
-}));
+const cors = require("cors");
+
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173",
+      "https://varshikaprojecthal.netlify.app"
+    ],
+    credentials: true,
+  })
+);
 
 app.use(express.json());
 app.use(cookieParser());

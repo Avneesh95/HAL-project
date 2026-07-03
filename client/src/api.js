@@ -1,11 +1,10 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: "https://hal-project-fr0t.onrender.com/api",
-  timeout: 15000, // prevents hanging requests
+  baseURL: import.meta.env.VITE_API_URL || "https://hal-project-fr0t.onrender.com/api",
 });
 
-// Attach token automatically
+// Request interceptor
 API.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem("token");
@@ -15,21 +14,19 @@ API.interceptors.request.use(
     }
 
     config.headers["Content-Type"] = "application/json";
-
     return config;
   },
-  (error) => {
-    return Promise.reject(error);
-  }
+  (error) => Promise.reject(error)
 );
 
-// Handle global errors
+// Response interceptor
 API.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response?.status === 401) {
-      // token expired or invalid → auto logout
-      localStorage.clear();
+    const status = error?.response?.status;
+
+    if (status === 401) {
+      localStorage.removeItem("token"); // cleaner than clear()
       window.location.href = "/";
     }
 

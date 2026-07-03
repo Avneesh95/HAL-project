@@ -12,18 +12,19 @@ const publicRoutes = require("./routes/publicRoutes");
 
 const app = express();
 
-// Middleware
-const cors = require("cors");
+// CORS CONFIG
+const corsOptions = {
+  origin: [
+    "http://localhost:5173",
+    "https://varshikaprojecthal.netlify.app"
+  ],
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+};
 
-app.use(
-  cors({
-    origin: [
-      "http://localhost:5173",
-      "https://varshikaprojecthal.netlify.app"
-    ],
-    credentials: true,
-  })
-);
+app.use(cors(corsOptions));
+app.options("*", cors(corsOptions));
 
 app.use(express.json());
 app.use(cookieParser());

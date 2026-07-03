@@ -21,6 +21,24 @@ function ManageParts() {
     }
   };
 
+  const increaseQty = async (id) => {
+    try {
+      await API.put(`/admin/part/increase/${id}`);
+      loadParts();
+    } catch (err) {
+      alert("Failed to increase quantity");
+    }
+  };
+
+  const decreaseQty = async (id) => {
+    try {
+      await API.put(`/admin/part/decrease/${id}`);
+      loadParts();
+    } catch (err) {
+      alert("Failed to decrease quantity");
+    }
+  };
+
   const deletePart = async (id) => {
     const ok = window.confirm("Delete this part?");
     if (!ok) return;
@@ -33,17 +51,20 @@ function ManageParts() {
     }
   };
 
-  const getStatusColor = (status) => {
-    if (status === "Approved") return "green";
-    if (status === "Rejected") return "red";
-    return "orange";
+  const formatDate = (date) => {
+    if (!date) return "-";
+    return new Date(date).toLocaleDateString("en-IN", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+    });
   };
 
   if (loading) return <h2>Loading...</h2>;
 
   return (
     <div style={{ padding: "20px", maxWidth: "1200px", margin: "auto" }}>
-      <h1 style={{ textAlign: "center" }}>Manage Parts</h1>
+      <h1 style={{ textAlign: "center" }}>Manage Products</h1>
 
       <div style={{ overflowX: "auto" }}>
         <table
@@ -58,11 +79,11 @@ function ManageParts() {
               <th style={th}>ID</th>
               <th style={th}>Supplier</th>
               <th style={th}>Part Name</th>
-              <th style={th}>Qty</th>
+              <th style={th}>Quantity</th>
               <th style={th}>MFG Date</th>
               <th style={th}>Expiry</th>
               <th style={th}>Status</th>
-              <th style={th}>Action</th>
+              <th style={th}>Actions</th>
             </tr>
           </thead>
 
@@ -86,10 +107,15 @@ function ManageParts() {
                   <td style={td}>
                     <span
                       style={{
-                        padding: "5px 10px",
+                        padding: "4px 8px",
                         borderRadius: "6px",
                         color: "white",
-                        background: getStatusColor(p.status),
+                        background:
+                          p.status === "Approved"
+                            ? "green"
+                            : p.status === "Rejected"
+                            ? "red"
+                            : "orange",
                       }}
                     >
                       {p.status}
@@ -97,19 +123,30 @@ function ManageParts() {
                   </td>
 
                   <td style={td}>
-                    <button
-                      onClick={() => deletePart(p.id)}
-                      style={{
-                        background: "red",
-                        color: "white",
-                        border: "none",
-                        padding: "6px 12px",
-                        borderRadius: "6px",
-                        cursor: "pointer",
-                      }}
-                    >
-                      Delete
-                    </button>
+                    <div style={{ display: "flex", gap: "6px", flexWrap: "wrap" }}>
+
+                      <button
+                        onClick={() => increaseQty(p.id)}
+                        style={btnGreen}
+                      >
+                        + Add
+                      </button>
+
+                      <button
+                        onClick={() => decreaseQty(p.id)}
+                        style={btnOrange}
+                      >
+                        - Reduce
+                      </button>
+
+                      <button
+                        onClick={() => deletePart(p.id)}
+                        style={btnRed}
+                      >
+                        Delete
+                      </button>
+
+                    </div>
                   </td>
                 </tr>
               ))
@@ -124,9 +161,31 @@ function ManageParts() {
 const th = { padding: "12px", textAlign: "left" };
 const td = { padding: "10px" };
 
-const formatDate = (date) => {
-  if (!date) return "-";
-  return new Date(date).toLocaleDateString("en-IN");
+const btnGreen = {
+  background: "green",
+  color: "white",
+  border: "none",
+  padding: "6px 10px",
+  borderRadius: "6px",
+  cursor: "pointer",
+};
+
+const btnOrange = {
+  background: "orange",
+  color: "white",
+  border: "none",
+  padding: "6px 10px",
+  borderRadius: "6px",
+  cursor: "pointer",
+};
+
+const btnRed = {
+  background: "red",
+  color: "white",
+  border: "none",
+  padding: "6px 10px",
+  borderRadius: "6px",
+  cursor: "pointer",
 };
 
 export default ManageParts;

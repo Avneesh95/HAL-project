@@ -97,4 +97,12 @@ router.put(
   adminController.decreaseQuantity
 );
 
+//delete parts
+
+router.delete(
+  "/part/:id",
+  auth("admin"),
+  adminController.deletePart
+);
+
 module.exports = router;

@@ -3,9 +3,21 @@ const bcrypt = require("bcrypt");
 
 ;
 
+// delete parts
 
+exports.deletePart = (req, res) => {
+  const id = req.params.id;
 
+  const sql = "DELETE FROM parts WHERE id = ?";
 
+  db.query(sql, [id], (err) => {
+    if (err) {
+      return res.status(500).json({ message: "Server error", err });
+    }
+
+    res.json({ message: "Part deleted successfully" });
+  });
+};
 
 // ==========================
 // GET ALL ADMINS

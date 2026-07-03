@@ -81,4 +81,20 @@ router.get(
   adminController.getAllParts
 );
 
+
+
+// Increase quantity
+router.put(
+  "/part/increase/:id",
+  auth("admin"),
+  adminController.increaseQuantity
+);
+
+// Decrease quantity
+router.put(
+  "/part/decrease/:id",
+  auth("admin"),
+  adminController.decreaseQuantity
+);
+
 module.exports = router;

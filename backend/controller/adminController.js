@@ -538,34 +538,40 @@ exports.rejectPart = (req, res) => {
 
 
 
-exports.updateQuantity = (req, res) => {
+exports.increaseQuantity = (req, res) => {
   const id = req.params.id;
-  const { action } = req.body; // "increase" or "decrease"
 
-  let sql = "";
-
-  if (action === "increase") {
-    sql = "UPDATE parts SET quantity = quantity + 1 WHERE id = ?";
-  } else if (action === "decrease") {
-    sql = "UPDATE parts SET quantity = GREATEST(quantity - 1, 0) WHERE id = ?";
-  } else {
-    return res.status(400).json({ message: "Invalid action" });
-  }
+  const sql = `
+    UPDATE parts
+    SET quantity = quantity + 1
+    WHERE id = ?
+  `;
 
   db.query(sql, [id], (err) => {
-    if (err) {
-      return res.status(500).json({
-        message: "Error updating quantity",
-        error: err,
-      });
-    }
+    if (err) return res.status(500).json(err);
 
-    return res.json({
-      message: "Quantity updated successfully",
-    });
+    res.json({ message: "Quantity increased" });
   });
 };
 
+exports.decreaseQuantity = (req, res) => {
+  const id = req.params.id;
+
+  const sql = `
+    UPDATE parts
+    SET quantity = CASE 
+      WHEN quantity > 0 THEN quantity - 1 
+      ELSE 0 
+    END
+    WHERE id = ?
+  `;
+
+  db.query(sql, [id], (err) => {
+    if (err) return res.status(500).json(err);
+
+    res.json({ message: "Quantity decreased" });
+  });
+};
 
 
 // GET ALL PARTS

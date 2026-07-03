@@ -1,104 +1,80 @@
 import { useEffect, useState } from "react";
 import API from "../api";
+import "./Home.css";
 
 function Home() {
+  const [parts, setParts] = useState([]);
 
-    const [parts, setParts] = useState([]);
+  useEffect(() => {
+    loadParts();
+  }, []);
 
-    useEffect(() => {
-        loadParts();
-    }, []);
+  const loadParts = async () => {
+    try {
+      const res = await API.get("/public/approved-parts");
+      console.log(res.data); // Check API response in browser console
+      setParts(res.data);
+    } catch (err) {
+      console.log(err);
+      alert("Unable to load approved parts.");
+    }
+  };
 
-    const loadParts = async () => {
+  // Format Date & Time
+ 
+  const formatDate = (date) => {
+  if (!date) return "-";
 
-        try {
+  return new Date(date).toLocaleDateString("en-IN", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  });
+};
 
-            const res = await API.get("/public/approved-parts");
+  return (
+    <div className="home-container">
+      <h2 className="title">Approved Inventory Parts</h2>
 
-            setParts(res.data);
+      <div className="table-container">
+        <table className="parts-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Supplier ID</th>
+              <th>Supplier Name</th>
+              <th>Part Name</th>
+              <th>Quantity</th>
+              <th>Manufacturing Date</th>
+              <th>Expiry Date</th>
+            </tr>
+          </thead>
 
-        } catch (err) {
-
-            console.log(err);
-
-            alert("Unable to load approved parts.");
-
-        }
-
-    };
-
-    return (
-
-        <div style={{ padding: "30px" }}>
-
-            <h2>Approved Inventory Parts</h2>
-
-            <table
-                border="1"
-                cellPadding="10"
-                cellSpacing="0"
-                width="100%"
-            >
-
-                <thead>
-
-                    <tr>
-
-                        <th>ID</th>
-                        <th>Supplier ID</th>
-                        <th>Supplier Name</th>
-                        <th>Part Name</th>
-                        <th>Quantity</th>
-                        <th>Manufacturing Date</th>
-                        <th>Expiry Date</th>
-
-                    </tr>
-
-                </thead>
-
-                <tbody>
-
-                    {parts.length === 0 ? (
-
-                        <tr>
-
-                            <td
-                                colSpan="7"
-                                align="center"
-                            >
-                                No approved parts found.
-                            </td>
-
-                        </tr>
-
-                    ) : (
-
-                        parts.map((part) => (
-
-                            <tr key={part.id}>
-
-                                <td>{part.id}</td>
-                                <td>{part.supplier_id}</td>
-                                <td>{part.supplier_name}</td>
-                                <td>{part.part_name}</td>
-                                <td>{part.quantity}</td>
-                                <td>{part.manufacturing_date}</td>
-                                <td>{part.expiry_date}</td>
-
-                            </tr>
-
-                        ))
-
-                    )}
-
-                </tbody>
-
-            </table>
-
-        </div>
-
-    );
-
+          <tbody>
+            {parts.length === 0 ? (
+              <tr>
+                <td colSpan="7" className="no-data">
+                  No approved parts found.
+                </td>
+              </tr>
+            ) : (
+              parts.map((part) => (
+                <tr key={part.id}>
+                  <td>{part.id}</td>
+                  <td>{part.supplier_id}</td>
+                  <td>{part.supplier_name}</td>
+                  <td>{part.part_name}</td>
+                  <td>{part.quantity}</td>
+                <td>{formatDate(part.manufacturing_date)}</td>
+                  <td>{formatDate(part.expiry_date)}</td>
+                </tr>
+              ))
+            )}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
 }
 
 export default Home;

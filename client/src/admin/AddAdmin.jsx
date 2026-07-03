@@ -1,5 +1,6 @@
 import { useState } from "react";
 import API from "../api";
+import "./AddAdmin.css";
 
 function AddAdmin() {
   const [form, setForm] = useState({
@@ -19,20 +20,13 @@ function AddAdmin() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (
-      !form.name ||
-      !form.username ||
-      !form.password
-    ) {
+    if (!form.name || !form.username || !form.password) {
       alert("Please fill all required fields.");
       return;
     }
 
     try {
-      const res = await API.post(
-        "/admin/add-admin",
-        form
-      );
+      const res = await API.post("/admin/add-admin", form);
 
       alert(res.data.message);
 
@@ -42,96 +36,66 @@ function AddAdmin() {
         email: "",
         password: "",
       });
-
     } catch (err) {
-      alert(
-        err.response?.data?.message ||
-        "Unable to add admin."
-      );
+      alert(err.response?.data?.message || "Unable to add admin.");
     }
   };
 
   return (
-    <div
-      style={{
-        width: "500px",
-        margin: "30px auto",
-      }}
-    >
-      <h2>Add New Admin</h2>
+    <div className="admin-container">
+      <div className="admin-card">
+        <h2>Add New Admin</h2>
 
-      <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit}>
+          <div className="form-group">
+            <label>Name</label>
+            <input
+              type="text"
+              name="name"
+              value={form.name}
+              onChange={handleChange}
+              placeholder="Enter name"
+            />
+          </div>
 
-        <div style={{ marginBottom: "10px" }}>
-          <label>Name</label>
-          <br />
-          <input
-            type="text"
-            name="name"
-            value={form.name}
-            onChange={handleChange}
-            style={{
-              width: "100%",
-              padding: "8px",
-            }}
-          />
-        </div>
+          <div className="form-group">
+            <label>Username</label>
+            <input
+              type="text"
+              name="username"
+              value={form.username}
+              onChange={handleChange}
+              placeholder="Enter username"
+            />
+          </div>
 
-        <div style={{ marginBottom: "10px" }}>
-          <label>Username</label>
-          <br />
-          <input
-            type="text"
-            name="username"
-            value={form.username}
-            onChange={handleChange}
-            style={{
-              width: "100%",
-              padding: "8px",
-            }}
-          />
-        </div>
+          <div className="form-group">
+            <label>Email</label>
+            <input
+              type="email"
+              name="email"
+              value={form.email}
+              onChange={handleChange}
+              placeholder="Enter email"
+            />
+          </div>
 
-        <div style={{ marginBottom: "10px" }}>
-          <label>Email</label>
-          <br />
-          <input
-            type="email"
-            name="email"
-            value={form.email}
-            onChange={handleChange}
-            style={{
-              width: "100%",
-              padding: "8px",
-            }}
-          />
-        </div>
+          <div className="form-group">
+            <label>Password</label>
+            <input
+              type="password"
+              name="password"
+              value={form.password}
+              onChange={handleChange}
+              placeholder="Enter password"
+            />
+          </div>
 
-        <div style={{ marginBottom: "15px" }}>
-          <label>Password</label>
-          <br />
-          <input
-            type="password"
-            name="password"
-            value={form.password}
-            onChange={handleChange}
-            style={{
-              width: "100%",
-              padding: "8px",
-            }}
-          />
-        </div>
-
-        <button
-          type="submit"
-          style={{
-            padding: "10px 20px",
-          }}
-        >
-          Add Admin
-        </button>
-
-      </form>
+          <button type="submit" className="submit-btn">
+            Add Admin
+          </button>
+        </form>
+      </div>
     </div>
   );
 }

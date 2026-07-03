@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import API from "../api";
+import "./Dashboard.css";
 
 function Dashboard() {
   const [stats, setStats] = useState({
@@ -30,75 +31,62 @@ function Dashboard() {
   };
 
   if (loading) {
-    return <h2 style={{ textAlign: "center" }}>Loading...</h2>;
+    return <h2 className="loading">Loading...</h2>;
   }
 
   return (
-    <div style={{ padding: "20px" }}>
-      <h1>Admin Dashboard</h1>
+    <div className="dashboard-container">
+      <h1 className="dashboard-title">Admin Dashboard</h1>
 
-      <table
-        border="1"
-        cellPadding="10"
-        cellSpacing="0"
-        style={{ marginTop: "20px", width: "100%" }}
-      >
-        <tbody>
-          <tr>
-            <td><b>Total Suppliers</b></td>
-            <td>{stats.totalSuppliers}</td>
-          </tr>
+      {/* Statistics Cards */}
+      <div className="stats-grid">
+        <div className="stat-card">
+          <h3>Total Suppliers</h3>
+          <p>{stats.totalSuppliers}</p>
+        </div>
 
-          <tr>
-            <td><b>Total Parts</b></td>
-            <td>{stats.totalParts}</td>
-          </tr>
+        <div className="stat-card">
+          <h3>Total Parts</h3>
+          <p>{stats.totalParts}</p>
+        </div>
 
-          <tr>
-            <td><b>Pending Parts</b></td>
-            <td>{stats.pendingParts}</td>
-          </tr>
+        <div className="stat-card">
+          <h3>Pending Parts</h3>
+          <p>{stats.pendingParts}</p>
+        </div>
 
-          <tr>
-            <td><b>Approved Parts</b></td>
-            <td>{stats.approvedParts}</td>
-          </tr>
+        <div className="stat-card">
+          <h3>Approved Parts</h3>
+          <p>{stats.approvedParts}</p>
+        </div>
 
-          <tr>
-            <td><b>Rejected Parts</b></td>
-            <td>{stats.rejectedParts}</td>
-          </tr>
-        </tbody>
-      </table>
+        <div className="stat-card">
+          <h3>Rejected Parts</h3>
+          <p>{stats.rejectedParts}</p>
+        </div>
+      </div>
 
-      <h2 style={{ marginTop: "30px" }}>Quick Actions</h2>
+      <h2 className="section-title">Quick Actions</h2>
 
-      <div
-        style={{
-          display: "flex",
-          flexWrap: "wrap",
-          gap: "10px",
-          marginTop: "15px",
-        }}
-      >
+      <div className="actions-grid">
         <Link to="/admin/admins">
-          <button>Manage Admins</button>
+          <button className="action-btn">Manage Admins</button>
         </Link>
 
         <Link to="/admin/add-admin">
-          <button>Add Admin</button>
+          <button className="action-btn">Add Admin</button>
         </Link>
 
         <Link to="/admin/suppliers">
-          <button>Manage Suppliers</button>
+          <button className="action-btn">Manage Suppliers</button>
         </Link>
 
         <Link to="/admin/add-supplier">
-          <button>Add Supplier</button>
+          <button className="action-btn">Add Supplier</button>
         </Link>
 
         <Link to="/admin/pending-parts">
-          <button>Pending Parts</button>
+          <button className="action-btn">Pending Parts</button>
         </Link>
       </div>
     </div>

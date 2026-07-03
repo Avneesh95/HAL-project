@@ -53,24 +53,39 @@ function Login() {
     }
   };
 
-  return (
+
+    return (
+  <div
+    style={{
+      minHeight: "100vh",
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "space-between",
+      alignItems: "center",
+      background: "linear-gradient(135deg, #4f46e5, #3b82f6, #06b6d4)",
+      padding: "20px",
+      boxSizing: "border-box",
+    }}
+  >
+    {/* Center Content */}
     <div
       style={{
-        minHeight: "100vh",
+        flex: 1,
+        width: "100%",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        background: "linear-gradient(135deg, #4f46e5, #3b82f6, #06b6d4)",
-        position: "relative",
       }}
     >
       <div
         style={{
-          width: "380px",
+          width: "100%",
+          maxWidth: "420px",
           background: "#fff",
-          padding: "35px",
+          padding: "30px",
           borderRadius: "18px",
           boxShadow: "0 15px 35px rgba(0,0,0,0.2)",
+          boxSizing: "border-box",
         }}
       >
         <h1
@@ -78,6 +93,7 @@ function Login() {
             textAlign: "center",
             marginBottom: "10px",
             color: "#1e293b",
+            fontSize: "clamp(28px, 5vw, 36px)",
           }}
         >
           Welcome Back 👋
@@ -88,6 +104,7 @@ function Login() {
             textAlign: "center",
             color: "#64748b",
             marginBottom: "30px",
+            fontSize: "clamp(14px, 2vw, 16px)",
           }}
         >
           Login to Inventory Management System
@@ -110,12 +127,13 @@ function Login() {
               onChange={handleChange}
               style={{
                 width: "100%",
-                padding: "12px",
+                padding: "13px",
                 marginTop: "8px",
                 borderRadius: "8px",
                 border: "1px solid #cbd5e1",
-                fontSize: "15px",
+                fontSize: "16px",
                 outline: "none",
+                boxSizing: "border-box",
               }}
             >
               <option value="admin">Admin</option>
@@ -145,13 +163,13 @@ function Login() {
               onChange={handleChange}
               style={{
                 width: "100%",
-                padding: "12px",
+                padding: "13px",
                 marginTop: "8px",
                 borderRadius: "8px",
                 border: "1px solid #cbd5e1",
-                fontSize: "15px",
-                boxSizing: "border-box",
+                fontSize: "16px",
                 outline: "none",
+                boxSizing: "border-box",
               }}
             />
           </div>
@@ -174,13 +192,13 @@ function Login() {
               onChange={handleChange}
               style={{
                 width: "100%",
-                padding: "12px",
+                padding: "13px",
                 marginTop: "8px",
                 borderRadius: "8px",
                 border: "1px solid #cbd5e1",
-                fontSize: "15px",
-                boxSizing: "border-box",
+                fontSize: "16px",
                 outline: "none",
+                boxSizing: "border-box",
               }}
             />
           </div>
@@ -190,7 +208,7 @@ function Login() {
             disabled={loading}
             style={{
               width: "100%",
-              padding: "14px",
+              padding: "15px",
               background: "#2563eb",
               color: "#fff",
               border: "none",
@@ -204,24 +222,24 @@ function Login() {
           </button>
         </form>
       </div>
-
-      {/* Footer */}
-      <div
-        style={{
-          position: "fixed",
-          bottom: "15px",
-          width: "100%",
-          textAlign: "center",
-          color: "white",
-          fontSize: "15px",
-          fontWeight: "500",
-          letterSpacing: "0.5px",
-        }}
-      >
-        © 2026 | Created by <strong>Vartika Singh</strong>
-      </div>
     </div>
-  );
+
+    {/* Footer */}
+    <div
+      style={{
+        width: "100%",
+        textAlign: "center",
+        color: "#fff",
+        fontSize: "14px",
+        fontWeight: "500",
+        padding: "20px 10px 10px",
+        boxSizing: "border-box",
+      }}
+    >
+      © 2026 | Created by <strong>Vartika Singh</strong>
+    </div>
+  </div>
+);
 }
 
 export default Login;

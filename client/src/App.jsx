@@ -16,17 +16,19 @@ import AddSupplier from "./admin/AddSupplier";
 import PendingParts from "./admin/pendingPart";
 import ManageParts from "./admin/ManageParts";
 
+import AddPart from "./supplier/AddPart";
+import MyParts from "./supplier/MyParts";
+import EditPart from "./supplier/EditPart";
+
 // PROTECTED ROUTE
 import ProtectedRoute from "./component/ProtectedRoutes";
 
 function App() {
   return (
     <BrowserRouter>
-
       <Navbar />
 
       <Routes>
-
         {/* PUBLIC */}
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
@@ -104,7 +106,35 @@ function App() {
             </ProtectedRoute>
           }
         />
+        {/* SUPPLIER - ADD PART */}
+        <Route
+          path="/supplier/add-part"
+          element={
+            <ProtectedRoute role="supplier">
+              <AddPart />
+            </ProtectedRoute>
+          }
+        />
 
+        {/* SUPPLIER - MY PARTS */}
+        <Route
+          path="/supplier/my-parts"
+          element={
+            <ProtectedRoute role="supplier">
+              <MyParts />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* SUPPLIER - EDIT PART */}
+        <Route
+          path="/supplier/edit-part/:id"
+          element={
+            <ProtectedRoute role="supplier">
+              <EditPart />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
     </BrowserRouter>
   );

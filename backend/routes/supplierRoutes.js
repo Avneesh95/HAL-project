@@ -28,10 +28,11 @@ router.get(
 
 // Edit Part
 router.put(
-    "/edit-part/:id",
-    auth("supplier"),
-    supplierController.editPart
+  "/update-part/:id",
+  auth("supplier"),
+  supplierController.editPart
 );
+
 
 // Delete Part
 router.delete(

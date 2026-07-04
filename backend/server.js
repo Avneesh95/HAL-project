@@ -12,14 +12,15 @@ const publicRoutes = require("./routes/publicRoutes");
 
 const app = express();
 
-// CORS CONFIG
+// ================= CORS =================
+
 const allowedOrigins = [
   "http://localhost:5173",
   "https://varshikahalproject.netlify.app",
 ];
 
 const corsOptions = {
-  origin: function (origin, callback) {
+  origin: (origin, callback) => {
     if (!origin) return callback(null, true);
 
     if (allowedOrigins.includes(origin)) {
@@ -36,15 +37,17 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.options("*", cors(corsOptions));
 
+// ================= Middlewares =================
+
 app.use(express.json());
 app.use(cookieParser());
 
-// Test route
+// ================= Routes =================
+
 app.get("/", (req, res) => {
   res.send("Inventory Management API Running");
 });
 
-// Routes
 app.use("/api/public", publicRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/admin", adminRoutes);

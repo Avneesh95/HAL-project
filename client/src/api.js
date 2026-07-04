@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || "https://hal-project-fr0t.onrender.com/api",
+  baseURL: "https://hal-project-fr0t.onrender.com/api",
 });
 
 // Request interceptor

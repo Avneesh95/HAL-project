@@ -15,7 +15,7 @@ const app = express();
 // CORS CONFIG
 const corsOptions = {
   origin: [
-    "http://localhost:5173",
+    "https://localhost:5173",
     "https://varshikaprojecthal.netlify.app"
   ],
   credentials: true,

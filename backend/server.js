@@ -13,31 +13,31 @@ const publicRoutes = require("./routes/publicRoutes");
 const app = express();
 
 // CORS CONFIG
-
 const allowedOrigins = [
   "http://localhost:5173",
-  "https://varshikahalproject.netlify.app"
+  "https://varshikahalproject.netlify.app",
 ];
 
-app.use(cors({
-  origin: function(origin, callback) {
-    // allow requests with no origin (Postman/mobile apps)
+const corsOptions = {
+  origin: function (origin, callback) {
     if (!origin) return callback(null, true);
 
     if (allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
+      return callback(null, true);
     }
+
+    return callback(new Error("Not allowed by CORS"));
   },
   credentials: true,
-}));
+  methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+};
 
-app.options("*", cors());
-
-
+app.use(cors(corsOptions));
+app.options("*", cors(corsOptions));
 
 app.use(express.json());
+app.use(cookieParser());
 
 // Test route
 app.get("/", (req, res) => {
